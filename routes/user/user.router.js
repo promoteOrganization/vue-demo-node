@@ -18,6 +18,7 @@ router.route('/')
             if (err) {
                 restmsg.errorMsg(err);
                 res.send(restmsg);
+                return;
             }
             restmsg.successMsg(); // restmsg状态码设置为成功状态
             restmsg.setResult(objs); // restmsg结果部分设置为封装好的objs
@@ -37,9 +38,32 @@ router.route('/')
             if (err) {
                 restmsg.errorMsg(err);
                 res.send(restmsg);
+                return;
             }
             restmsg.successMsg();
             restmsg.setResult(obj);
+            res.send(restmsg);
+        })
+    })
+
+router.route('/userlist')
+    .get(function (req, res, next) {
+        var restmsg = new RestMsg();
+        var row = req.param('row');
+        var start = req.param('start');
+        var query = {
+            'row': row,
+            'start': start
+        }
+        console.log(query);
+        User.findList(query, function (err, objs) {
+            if (err) {
+                restmsg.errorMsg(err);
+                res.send(restmsg);
+                return;
+            }
+            restmsg.successMsg();
+            restmsg.setResult(objs);
             res.send(restmsg);
         })
     })
@@ -53,6 +77,7 @@ router.route('/:id')
             if (err) {
                 restmsg.errorMsg(err);
                 res.send(restmsg);
+                return;
             }
             restmsg.successMsg();
             restmsg.setResult(obj);
@@ -72,6 +97,7 @@ router.route('/:id')
             if (err) {
                 restmsg.errorMsg(err);
                 res.send(restmsg);
+                return;
             }
             restmsg.successMsg();
             restmsg.setResult(obj);
@@ -86,6 +112,7 @@ router.route('/:id')
             if (err) {
                 restmsg.errorMsg(err);
                 res.send(restmsg);
+                return;
             }
             restmsg.successMsg();
             restmsg.setResult(obj);

@@ -29,8 +29,35 @@
 	 * @param query
 	 * @param callback
 	 */
- 	generator.findList = function () {
+ 	generator.findList = function (query, callback) {
+ 		if (!query) {
+ 			query = {};
+ 		}
 
+ 		var options = {'$slice':2};
+ 		options['limit'] = query.row;
+ 		options['skip'] = query.start;
+ 		options['sort'] = {'create_at': -1};
+ 		delete query.row;
+ 		delete query.start;
+ 		var page = new Page();
+ 		model.count(query, function (err, count) {
+ 			if (err) {
+ 				return callback(err);
+ 			}
+ 			if (count == 0) {
+ 				callback(null, page);
+ 				return;
+ 			}
+ 			model.find(query, null, options, function (err, objs) {
+	 			if (err) {
+	 				return callback(err);
+	 			}
+	 			page.setPageAttr(count);
+	 			page.setData(objs);
+	 			callback(null, page);
+	 		})
+ 		})
  	}
 
  	/**
