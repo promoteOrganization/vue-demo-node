@@ -3,21 +3,18 @@
  */
 var express = require('express');
 var router = express.Router();
-var User = require('../model/user');
+var User = require('../../model/user');
 
 router.route('/')
     .get(function (req, res, next) {
         var query = {};
 
-        var user = new User();
-
-        user.findList(query, {}, function (err, objs) {
+        User.find(query, function (err, objs) {
                 if (err) {
                 res.send(console.error(err));
             }
             res.send(console.log(objs));
         })
-        res.send('respond with a resource');
     })
     .post(function (req, res, next) {
         var email = req.body.email;
@@ -36,11 +33,9 @@ router.route('/')
 
 router.route('/:id')
     .get(function (req, res, next) {
-        var userid = req.param('id');
+        var userid = req.params.id;
 
-        var user = new User();
-
-        user.findById({_id: userid}, function (err, obj) {
+        User.findById({_id: userid}, function (err, obj) {
             if (err) {
                 res.send(console.error(err));
             }
@@ -48,11 +43,11 @@ router.route('/:id')
         })
     })
     .put(function (req, res, next) {
-        var userid = req.param('id');
+        var userid = req.params.id;
         var updateEmail = req.body.email;
 
         var updateUser = new User({
-            'email': email
+            'email': updateEmail
         })
 
         updateUser.update({_id: userid}, function (err, obj) {
@@ -65,9 +60,7 @@ router.route('/:id')
     .delete(function (req, res, next) {
         var userid = req.param('id');
 
-        var user = new User();
-
-        user.delete({_id: userid}, function (err, obj) {
+        User.remove({_id: userid}, function (err, obj) {
             if (err) {
                 res.send(console.error(err));
             }
@@ -77,4 +70,3 @@ router.route('/:id')
 
 module.exports = router;
 
-    

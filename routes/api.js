@@ -12,6 +12,6 @@ var users = require('./user/user.router.js');
 //});
 
 
-router.user('/users', users);
+router.use('/users', users);
 
 module.exports = router;
