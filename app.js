@@ -3,10 +3,13 @@ var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
+var expressSession = require('express-session');
+var MongoStore = require('connect-mongo')(session);  
+var mongoose = require("./db/db");
 var bodyParser = require('body-parser');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+var auth = require('./routes/auth');
+var api = require('./routes/api');
 
 var app = express();
 
@@ -20,10 +23,32 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
+app.use(session({
+    secret: 'vue-demo',
+    name: 'vue-demo',
+    saveUninitialized: false, // don't create session until something stored
+    resave: false,//don't save session if unmodified
+    unset:'destroy',//The session will be destroyed (deleted) when the response ends.
+    store: new MongoStore({
+        mongooseConnection: mongoose.connection
+    })
+}));
+
+app.use('/', auth);
+
+//登录拦截器
+// app.use(function (req, res, next) {
+//     var url = req.originalUrl;
+//     if (url != "/login" && !req.session.uid) {
+//         return res.redirect("/login");
+//     }
+//     next();
+// });
+
+app.use('/api', api);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
