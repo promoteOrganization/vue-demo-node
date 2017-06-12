@@ -32,6 +32,7 @@ app.use(session({
     saveUninitialized: false, // don't create session until something stored
     resave: false,//don't save session if unmodified
     unset:'destroy',//The session will be destroyed (deleted) when the response ends.
+    cookie: { maxAge: 60000 }},
     store: new MongoStore({
         mongooseConnection: mongoose.connection
     })
