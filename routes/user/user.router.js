@@ -3,6 +3,7 @@
  */
 var express = require('express');
 var router = express.Router();
+var encrypt = require('../../middlewares/encrypt');
 var userModel = require('../../model/user'); // 引入user的model
 var RestMsg = require('../../middlewares/RestMsg');
 var Page = require('../../middlewares/page');
@@ -34,16 +35,19 @@ router.route('/')
             'password' : password
         }
 
-        User.save(newUser, function (err, obj) {
-            if (err) {
-                restmsg.errorMsg(err);
+        encrypt.sha1Hash(password, function(err, obj) {
+            newUser.password = obj;
+            User.save(newUser, function (err, obj) {
+                if (err) {
+                    restmsg.errorMsg(err);
+                    res.send(restmsg);
+                    return;
+                }
+                restmsg.successMsg();
+                restmsg.setResult(obj);
                 res.send(restmsg);
-                return;
-            }
-            restmsg.successMsg();
-            restmsg.setResult(obj);
-            res.send(restmsg);
-        })
+            })
+        });
     })
 
 router.route('/userlist')
@@ -55,7 +59,7 @@ router.route('/userlist')
             'row': row,
             'start': start
         }
-        console.log(query);
+        
         User.findList(query, function (err, objs) {
             if (err) {
                 restmsg.errorMsg(err);
