@@ -38,7 +38,6 @@ app.use(session({
     })
 }));
 
-app.use('/', auth);
 
 //登录拦截器
 // app.use(function (req, res, next) {

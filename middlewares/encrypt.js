@@ -5,7 +5,7 @@ var crypto = require('crypto');
 var encrypt = {};
 
 /**
- * sha1算法加盐加密
+ * sha1算法加盐(新增时使用)
  * @param {str|需要加密的字符串}
  * @param {salt|密钥}
  */
@@ -20,6 +20,16 @@ encrypt.sha1Hash = function (str, callback) {
 	    var hash = crypto.createHmac('sha1', salt).update(str).digest('hex')+ '.' + salt;
 	    callback(null, hash);
 	})
+}
+
+/**
+ * sha1算法加盐(验证时使用)
+ * @param {str|需要加密的字符串}
+ * @param {salt|密钥}
+ */
+encrypt.sha1HashCompare = function (str, salt) {
+    // 将加密与盐同时作为hash值传回
+    return crypto.createHmac('sha1', salt).update(str).digest('hex')+ '.' + salt;
 }
 
 /**

@@ -24,6 +24,24 @@
  		})
  	}
 
+ 	/**
+	 * 查询单条数据
+	 * @param query
+	 * @param callback
+	 */
+ 	generator.findOne = function (query, callback) {
+ 		if (!query) {
+ 			query = {};
+ 		}
+
+ 		model.findOne(query, function (err, ret) {
+ 			if (err) {
+                return callback(err);
+            }
+            callback(null, ret);
+ 		})
+ 	}
+
 	/**
 	 * 分页查询所有数据
 	 * @param query
