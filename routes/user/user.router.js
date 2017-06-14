@@ -7,15 +7,15 @@ var encrypt = require('../../middlewares/encrypt');
 var userModel = require('../../model/user'); // 引入user的model
 var RestMsg = require('../../middlewares/RestMsg');
 var Page = require('../../middlewares/page');
+var randomWord = require('../../middlewares/randomword');
+var sendMailer = require('../../middlewares/sendmail');
 var modelGenerator = require('../../model/common/modelGenerator'); // 引入model公共方法对象
 var User = modelGenerator(userModel, '_id');
-var sendMailer = require('../../middlewares/sendmail');
 
 router.route('/')
     .get(function (req, res, next) {
         var query = {};
 
-        sendMailer.sendMailToUser('test@xxun.site', 123456);
         var restmsg = new RestMsg(); // 初始化restmsg，用于api返回信息
         User.find(query, function (err, objs) {
             if (err) {
@@ -52,11 +52,12 @@ router.route('/')
         });
     })
 
+
 router.route('/userlist')
     .get(function (req, res, next) {
         var restmsg = new RestMsg();
-        var row = req.param('row');
-        var start = req.param('start');
+        var row = req.query.row;
+        var start = req.query.start;
         var query = {
             'row': row,
             'start': start

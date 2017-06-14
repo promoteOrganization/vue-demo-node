@@ -52,13 +52,14 @@ sendMailer.sendMailToUser = function (toEmail, captchaCode) {
 	var subject = '欢迎使用vue-demo'
 	var captchaCode = captchaCode;
 	var content = "<p>尊敬的用户：您的登录验证码为<p/>" +
-        "<b>" +captchaCode + "</b>"
-        "<p>请查看后输入对应文本框：</p>"  
+        "<b>" +captchaCode + "</b><br>" +
+        "<p>您的验证码半个小时后失效,请及时进行验证</p>"  
         // "<a href='http://" + config.web.domain + ":" + config.web.http_port + "'>" + config.web.domain + ":" + config.web.http_port + "</a><br>"
 	this.sendMail(toEmail, subject, content, function (successStatus) {
 		if (!successStatus) {
 			return console.log('邮件发送失败');
 		}
+		return console.log('邮件发送成功')
 	})
 }
 

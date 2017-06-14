@@ -4,6 +4,7 @@
 var express = require('express');
 var router = express.Router();
 var users = require('./user/user.router.js');
+var captchas = require('./captcha/captcha.router.js');
 var auth = require('./auth');
 
 //允许跨域访问资源，
@@ -14,5 +15,6 @@ var auth = require('./auth');
 
 router.use('/auth', auth);
 router.use('/users', users);
+router.use('/captchas', captchas);
 
 module.exports = router;
