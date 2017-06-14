@@ -1,0 +1,17 @@
+/**
+ * Created by lijiaxing on 2017/6/14.
+ */
+//  var captcha = require('ccap');
+
+//  var captcha = ccap({
+//  	width: 256, // set width,default is 256
+//  	height: 60, // set height,default is 60
+//  	offset: 40, // set text spacing,default is 40
+//  	quality: 100, //  set pic quality,default is 50
+//  	generate:function(){//Custom the function to generate captcha text
+//        //generate captcha text here
+//        return text;//return the captcha text
+//     }
+// })
+
+// module.exports = captcha;

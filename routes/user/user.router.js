@@ -9,11 +9,13 @@ var RestMsg = require('../../middlewares/RestMsg');
 var Page = require('../../middlewares/page');
 var modelGenerator = require('../../model/common/modelGenerator'); // 引入model公共方法对象
 var User = modelGenerator(userModel, '_id');
+var sendMailer = require('../../middlewares/sendmail');
 
 router.route('/')
     .get(function (req, res, next) {
         var query = {};
 
+        sendMailer.sendMailToUser('test@xxun.site', 123456);
         var restmsg = new RestMsg(); // 初始化restmsg，用于api返回信息
         User.find(query, function (err, objs) {
             if (err) {

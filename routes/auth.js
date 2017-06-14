@@ -9,10 +9,19 @@ var userModel = require('../model/user');
 var modelGenerator = require('../model/common/modelGenerator');
 var User = modelGenerator(userModel, '_id');
 var RestMsg = require('../middlewares/restmsg');
-
+var ccap = require('../middlewares/captcha');
 
 // 登录相关
 router.route('/login')
+	.get(function(req, res, next) {
+		var restmsg = new RestMsg();
+		var ary = ccap.get();
+		var txt = ary[0];
+		var buf = ary[1];
+		restmsg.successMsg();
+		restmsg.setResult(txt);
+		res.send(restmsg);
+	})
 	.post(function(req, res, next) {
 		var restmsg = new RestMsg();
 		var email = req.body.email;

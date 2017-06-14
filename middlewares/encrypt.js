@@ -1,4 +1,6 @@
 /**
+ * Created by lijiaxing on 2017/6/13.
+ *
  * 加密工具
 **/
 var crypto = require('crypto');
