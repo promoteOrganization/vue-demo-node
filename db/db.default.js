@@ -5,5 +5,6 @@
 var mongoose = require("mongoose");
 
 mongoose.connect("mongodb://localhost/vueDemo");
+// mongoose.connect("mongodb://user:pwd@localhost/vueDemo");
 
 module.exports = mongoose;
