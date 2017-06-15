@@ -7,11 +7,11 @@ var users = require('./user/user.router.js');
 var captchas = require('./captcha/captcha.router.js');
 var auth = require('./auth');
 
-//允许跨域访问资源，
-//router.use(function(req, res, next) {
-//    res.header('Access-Control-Allow-Origin', '*');
-//    next();
-//});
+// 允许跨域访问资源，
+router.use(function(req, res, next) {
+   res.header('Access-Control-Allow-Origin', '*');
+   next();
+});
 
 router.use('/auth', auth);
 router.use('/users', users);

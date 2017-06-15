@@ -12,15 +12,6 @@ var RestMsg = require('../middlewares/restmsg');
 
 // 登录相关
 router.route('/login')
-	.get(function(req, res, next) {
-		var restmsg = new RestMsg();
-
-		// 邮箱验证码
-		var randomCaptcha = randomWord.getRandomWord(4);
-		restmsg.successMsg();
-		restmsg.setResult(randomCaptcha);
-		res.send(restmsg);
-	})
 	.post(function(req, res, next) {
 		var restmsg = new RestMsg();
 		var email = req.body.email;
@@ -56,11 +47,15 @@ router.route('/login')
 router.route('/loginOut')
 	.get(function(req, res, next) {
 		if (req.session) {
+			console.log('ddd');
 	        req.session.uid = null;
 	        res.clearCookie('uid');
 	        req.session.destroy();
+	        restmsg.successMsg();
+	        restmsg.setResult();
+	        res.send(restmsg);
+	        return;
 	    }
-	    res.redirect('/login');
 	})
 
 module.exports = router;
