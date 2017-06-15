@@ -8,7 +8,6 @@ var MongoStore = require('connect-mongo')(session);
 var mongoose = require("./db/db");
 var bodyParser = require('body-parser');
 
-var auth = require('./routes/auth');
 var api = require('./routes/api');
 
 var app = express();

@@ -15,7 +15,7 @@ var Captcha = modelGenerator(captchaModel, '_id');
 router.route('/')
 	.get(function(req, res, next) {
 		var restmsg = new RestMsg();
-        var captchaEmail = req.query.email
+        var captchaEmail = req.query.email;
         var newCaptcha = { 
             'email': captchaEmail
         }
@@ -77,6 +77,17 @@ router.route('/')
 		var restmsg = new RestMsg();
         var captchaEmail = req.body.email;
         var captcha = req.body.captcha; // 前端输入的邮箱验证码
+        
+        if (captchaEmail == '') {
+            restmsg.errorMsg('请输入正确的邮箱地址!');
+            res.send(restmsg);
+            return;
+        }
+        if (captcha == '') {
+            restmsg.errorMsg('请输入邮箱验证码!');
+            res.send(restmsg);
+            return;
+        }
         var query = {
             'email': captchaEmail
         }
