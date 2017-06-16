@@ -6,6 +6,7 @@ var express = require('express');
 var router = express.Router();
 var encrypt = require('../../middlewares/encrypt');
 var imgCaptcha = require('../../middlewares/captcha');
+var common = require('../../middlewares/common');
 var captchaModel = require('../../model/captcha'); // 引入user的model
 var RestMsg = require('../../middlewares/RestMsg');
 var randomWord = require('../../middlewares/randomword');
@@ -99,10 +100,14 @@ router.route('/')
                 res.send(restmsg);
                 return;
             }
-            // TODO 正则表达式来操作大小写
-            if (obj.captcha === captcha) { // 恒等
+            
+            if (common.strCompare(captcha, obj.captcha)) {
                 restmsg.successMsg();
                 res.send(restmsg);
+            } else {
+                restmsg.errorMsg('验证码输入错误!');
+                res.send(restmsg);
+                return;
             }
         })
 	})
@@ -117,6 +122,7 @@ router.route('/imgCaptcha')
             res.send(restmsg);
             return;
         } else {
+            req.session.loginCaptcha = imgCaptchaCode;
             restmsg.successMsg();
             restmsg.setResult(imgCaptchaCode);
             res.send(restmsg);
