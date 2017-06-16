@@ -75,10 +75,31 @@ router.route('/userlist')
         })
     })
 
+// 注册时使用email做查询
+router.route('/register/:email')
+    .get(function (req, res, next) {
+        var restmsg = new RestMsg();
+        var useremail = req.params.email;
+        var query = {
+            email: useremail
+        }
+
+        User.findOne(query, function (err, obj) {
+            if (err) {
+                restmsg.errorMsg(err);
+                res.send(restmsg);
+                return;
+            }
+            restmsg.successMsg();
+            restmsg.setResult(obj);
+            res.send(restmsg);
+        })
+    })
+
 router.route('/:id')
     .get(function (req, res, next) {
         var restmsg = new RestMsg();
-        var userid = req.params.id;
+        var useremail = req.params.email;
 
         User.findById(userid, function (err, obj) {
             if (err) {
