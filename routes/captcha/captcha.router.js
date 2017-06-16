@@ -5,6 +5,7 @@
 var express = require('express');
 var router = express.Router();
 var encrypt = require('../../middlewares/encrypt');
+var imgCaptcha = require('../../middlewares/captcha');
 var captchaModel = require('../../model/captcha'); // 引入user的model
 var RestMsg = require('../../middlewares/RestMsg');
 var randomWord = require('../../middlewares/randomword');
@@ -105,5 +106,24 @@ router.route('/')
             }
         })
 	})
+
+router.route('/imgCaptcha')
+    .get(function(req, res, next) {
+        var restmsg = new RestMsg();
+
+        var imgCaptchaCode = imgCaptcha.createCap();
+        if (!imgCaptchaCode) {
+            restmsg.errorMsg('验证码生成失败');
+            res.send(restmsg);
+            return;
+        } else {
+            restmsg.successMsg();
+            restmsg.setResult(imgCaptchaCode);
+            res.send(restmsg);
+        }
+    })
+    .post(function(req, res, next) {
+        
+    })
 
 module.exports = router;
