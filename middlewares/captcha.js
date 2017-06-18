@@ -1,7 +1,6 @@
 /**
  * Created by lijiaxing on 2017/6/16.
  */
-var Geetest = require('gt3-sdk'); // 引入极验后台验证码代码
 
 var captcha = {};
 
